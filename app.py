@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 import pandas as pd
 import os
 import requests
+import io
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -9,6 +10,9 @@ load_dotenv()
 HUNTER_API_KEY = os.getenv("HUNTER_API_KEY")
 
 app = Flask(__name__)
+
+# Store the most recent enrichment results for CSV export
+latest_enriched_df = pd.DataFrame()
 
 def compute_relevance_score(d):
     score = 0
@@ -59,7 +63,7 @@ def enrich_company_hunter(domain):
         }
 
     except Exception as e:
-        print(f"[ERROR] Company enrichment failed for {domain}: {e}")
+        print(f"[ERROR] Enrichment failed for {domain}: {e}")
         return {"Domain": domain, "Enrichment Status": "Error"}
 
 def enrich_data(df):
@@ -72,6 +76,7 @@ def enrich_data(df):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    global latest_enriched_df
     results = None
     error = None
 
@@ -79,19 +84,34 @@ def index():
         if 'file' in request.files and request.files['file'].filename != '':
             file = request.files['file']
             df = pd.read_csv(file)
-            enriched_df = enrich_data(df)
-            results = enriched_df.to_dict(orient="records")
+            latest_enriched_df = enrich_data(df)
+            results = latest_enriched_df.to_dict(orient="records")
 
         elif 'domain' in request.form and request.form['domain'].strip() != '':
             domain = request.form['domain'].strip()
             df = pd.DataFrame([{"Website": domain}])
-            enriched_df = enrich_data(df)
-            results = enriched_df.to_dict(orient="records")
+            latest_enriched_df = enrich_data(df)
+            results = latest_enriched_df.to_dict(orient="records")
 
         else:
             error = "Please upload a CSV file or enter a domain."
 
     return render_template("index.html", results=results, error=error)
+
+@app.route("/export")
+def export():
+    global latest_enriched_df
+    if latest_enriched_df.empty:
+        return "No data to export", 400
+    output = io.StringIO()
+    latest_enriched_df.to_csv(output, index=False)
+    output.seek(0)
+    return send_file(
+        io.BytesIO(output.getvalue().encode()),
+        mimetype='text/csv',
+        download_name='enriched_leads.csv',
+        as_attachment=True
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
