@@ -1,11 +1,10 @@
-# Caprae AI-Readiness Challenge: Lead Enrichment & Relevance Scoring Tool
+# Lead Enrichment & Relevance Scoring Tool
 
-This repository contains my submission for Caprae Capital's AI Pre-Screening Challenge. The project enhances B2B lead generation by combining company data enrichment and intelligent relevance scoring to prioritize high-impact leads.
 
 ## 🔍 Project Overview
 - Input: CSV of company names or domains
 - Output: Enriched data (industry, size, location, emails, LinkedIn) + Relevance Score
-- Built with: Python, Flask, OpenCorporates API, Hunter.io, BeautifulSoup
+- Built with: Python, Flask, Hunter API, Hunter.io
 
 ## 🚀 Features
 - Lead enrichment (company data, emails, domains)
@@ -16,11 +15,7 @@ This repository contains my submission for Caprae Capital's AI Pre-Screening Cha
 
 ## 📁 Project Structure
 ├── data/ # Input dataset
-├── src/ # Lead enrichment & scoring modules
-├── notebooks/ # Demo notebook
 ├── app/ # Flask app (UI)
-├── report/ # 1-page submission report
-├── demo_video/ # Optional walkthrough video
 
 
 
@@ -44,13 +39,10 @@ pip install -r requirements.txt
 python /app.py
 ```
 
-📄 Report & Video
-Caprae Challenge Report (PDF)
-
-Walkthrough Video
-
 🧠 Author
-Your Name
-Email: yourname@email.com
-LinkedIn | GitHub
+Abrarta Fawwas Prathama
+Email: abrartaf29@gmail.com
+www.linkedin.com/in/abrartafawwas
+
+
 
