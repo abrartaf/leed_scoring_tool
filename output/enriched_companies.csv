@@ -1,0 +1,6 @@
+Company,Website,Emails Found,Pattern,LinkedIn,Relevance Score
+Notion,https://notion.so,0,{f}{last},,1
+Figma,https://figma.com,10,{f}{last},,11
+Zapier,https://zapier.com,10,{first}.{last},,11
+OpenAI,https://openai.com,10,{first}{l},,11
+Linear,https://linear.app,10,{first},,11

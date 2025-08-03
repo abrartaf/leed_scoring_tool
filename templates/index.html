@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lead Enrichment Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+            background-color: #f9f9f9;
+        }
+
+        form {
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 18px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .card img {
+            max-width: 60px;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .card h4 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        .card a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <h2>🔍 Company Enrichment & Scoring</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <p><strong>Upload CSV:</strong></p>
+        <input type="file" name="file" accept=".csv"><br><br>
+
+        <p><strong>Or enter a domain (e.g. stripe.com):</strong></p>
+        <input type="text" name="domain" placeholder="example.com"><br>
+
+        <button type="submit">🚀 Enrich</button>
+    </form>
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if results %}
+    <h3>Enriched Results:</h3>
+    <div class="card-container">
+        {% for row in results %}
+        <div class="card">
+            {% if row['Logo'] %}
+            <img src="{{ row['Logo'] }}" alt="Logo">
+            {% endif %}
+            <h4>{{ row['Company'] or "Unknown Company" }}</h4>
+            <p><strong>Domain:</strong> {{ row['Domain'] }}</p>
+            <p><strong>Industry:</strong> {{ row['Industry'] or "N/A" }}</p>
+            <p><strong>Sector:</strong> {{ row['Sector'] or "N/A" }}</p>
+            <p><strong>Size:</strong> {{ row['Size'] or "N/A" }}</p>
+            <p><strong>Founded:</strong> {{ row['Founded'] or "N/A" }}</p>
+            <p><strong>Location:</strong> {{ row['Location'] or "N/A" }}</p>
+            <p><strong>Relevance Score:</strong> {{ row['Relevance Score'] }}/11</p>
+            {% if row['LinkedIn'] %}
+            <p><a href="{{ row['LinkedIn'] }}" target="_blank">🔗 LinkedIn</a></p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</body>
+
+</html>
