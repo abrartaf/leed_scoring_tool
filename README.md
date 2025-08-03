@@ -22,27 +22,26 @@ This repository contains my submission for Caprae Capital's AI Pre-Screening Cha
 ├── report/ # 1-page submission report
 ├── demo_video/ # Optional walkthrough video
 
-bash
-Copy
-Edit
+
 
 ## ⚙️ Setup Instructions
 
-```bash
 # Clone repo
+```
 git clone https://github.com/yourusername/caprae-ai-leadgen.git
 cd caprae-ai-leadgen
 ```
 
-```
 # Set up environment
+```
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-```
+
 # Run web app
-python app/app.py
+```
+python /app.py
 ```
 
 📄 Report & Video
@@ -54,3 +53,4 @@ Walkthrough Video
 Your Name
 Email: yourname@email.com
 LinkedIn | GitHub
+
